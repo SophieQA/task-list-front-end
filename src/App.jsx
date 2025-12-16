@@ -1,5 +1,6 @@
 import TaskList from './components/TaskList.jsx';
 import './App.css';
+import { useState } from 'react';
 
 const TASKS = [
   {
@@ -15,13 +16,38 @@ const TASKS = [
 ];
 
 const App = () => {
+  const [nowTasks, setNowTasks] = useState(TASKS);
+
+
+
+  const taskComplete = (taskId) => {
+    const tasks = nowTasks.map(task => {
+      if (task.id === taskId) {
+        return {...task, isComplete: ! task.isComplete};
+      } else {
+        return task;
+      }
+    });
+    setNowTasks(tasks);
+  };
+
+  const deleteTasks = (taskId) => {
+    const tasks = nowTasks.filter(task => task.id !== taskId);
+    setNowTasks(tasks);
+  };
+
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>Ada&apos;s Task List</h1>
       </header>
       <main>
-        <div>{<TaskList tasks={TASKS} />}</div>
+        <TaskList
+          tasks={nowTasks}
+          onTaskCompleteToggle={taskComplete}
+          onDeleteTask={deleteTasks}
+        ></TaskList>
       </main>
     </div>
   );
