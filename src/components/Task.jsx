@@ -1,6 +1,3 @@
-
-import PropTypes from 'prop-types';
-
 import PropTypes from 'prop-types';
 import './Task.css';
 
@@ -13,7 +10,7 @@ const Task = ({ id, title, isComplete, setComplete, onDelete }) => {
         className={`tasks__item__toggle ${buttonClass}`}
         onClick={() => setComplete && setComplete(id)}
       >
-        {props.title}
+        {title}
       </button>
       <button className="tasks__item__remove button"
         onClick={() => onDelete && onDelete(id)}
