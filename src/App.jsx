@@ -16,26 +16,21 @@ const TASKS = [
 ];
 
 const App = () => {
-  const [nowTasks, setNowTasks] = useState(TASKS);
+  const [tasks, setTasks] = useState(TASKS);
 
-
-
-  const taskComplete = (taskId) => {
-    const tasks = nowTasks.map(task => {
-      if (task.id === taskId) {
-        return {...task, isComplete: ! task.isComplete};
-      } else {
-        return task;
-      }
-    });
-    setNowTasks(tasks);
+  const setCompleteTask = (id) => {
+    setTasks(prevTasks =>
+      prevTasks.map(task =>
+        task.id === id ? { ...task, isComplete: !task.isComplete } : task
+      )
+    );
   };
 
-  const deleteTasks = (taskId) => {
-    const tasks = nowTasks.filter(task => task.id !== taskId);
-    setNowTasks(tasks);
+  const deleteTask = (id) => {
+    setTasks(prevTasks =>
+      prevTasks.filter(task => task.id !== id)
+    );
   };
-
 
   return (
     <div className="App">
@@ -43,11 +38,12 @@ const App = () => {
         <h1>Ada&apos;s Task List</h1>
       </header>
       <main>
-        <TaskList
-          tasks={nowTasks}
-          onTaskCompleteToggle={taskComplete}
-          onDeleteTask={deleteTasks}
-        ></TaskList>
+        <div><TaskList
+          tasks={tasks}
+          setCompleteTask={setCompleteTask}
+          deleteTask = {deleteTask}
+        />
+        </div>
       </main>
     </div>
   );
