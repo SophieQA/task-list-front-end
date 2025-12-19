@@ -1,5 +1,6 @@
 import TaskList from './components/TaskList.jsx';
 import './App.css';
+import NewTaskForm from './components/NewTaskForm.jsx';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -59,6 +60,11 @@ const deleteTaskApi = id => {
     });
 };
 
+const addTaskAPI = (newTask) => {
+  return axios.post(`${baseURL}/tasks`, newTask)
+    .catch(error => console.log(error));
+};
+
 const App = () => {
   const [tasks, setTasks] = useState([]);
 
@@ -109,6 +115,13 @@ const App = () => {
       });
   };
 
+  const onHandleSubmit = (data) => {
+    return addTaskAPI(data)
+      .then((result) => {
+        return setTasks((prevTasks) => [convertTaskFromAPI(result.data), ...prevTasks]);
+      });
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -121,6 +134,7 @@ const App = () => {
             toggleTaskComplete={toggleTaskComplete}
             deleteTask={deleteTask}
           />
+          <NewTaskForm onHandleSubmit={onHandleSubmit} />
         </div>
       </main>
     </div>
