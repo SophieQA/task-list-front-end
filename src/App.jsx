@@ -81,29 +81,16 @@ const App = () => {
     getAllTasks();
   }, []);
 
-  // Toggle a task's completion state. This function decides whether to call the
-  // API to mark complete or incomplete based on the current task state, and
-  // performs an optimistic UI update.
   const toggleTaskComplete = (id) => {
     setTasks((prevTasks) => {
       const task = prevTasks.find((t) => t.id === id);
       if (!task) return prevTasks;
 
-      const willBeComplete = !task.isComplete;
+      (task.isComplete ? inCompleteTaskApi : completeTaskApi)(id);
 
-      // optimistic UI update
-      const next = prevTasks.map((t) =>
-        t.id === id ? { ...t, isComplete: willBeComplete } : t
+      return prevTasks.map((t) =>
+        t.id === id ? { ...t, isComplete: !t.isComplete } : t
       );
-
-      // fire-and-forget API call (errors are logged in the helper)
-      if (willBeComplete) {
-        completeTaskApi(id);
-      } else {
-        inCompleteTaskApi(id);
-      }
-
-      return next;
     });
   };
 
