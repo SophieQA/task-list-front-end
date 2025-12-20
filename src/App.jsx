@@ -29,6 +29,7 @@ const getAllTasksFromAPI = () => {
 };
 
 const convertTaskFromAPI = (apiTask) => {
+  console.log('Converting task from API:', apiTask);
   const { id, title, description, is_complete: isComplete } = apiTask;
   const newtask = {
     id,
@@ -118,7 +119,7 @@ const App = () => {
   const onHandleSubmit = (data) => {
     return addTaskAPI(data)
       .then((result) => {
-        return setTasks((prevTasks) => [convertTaskFromAPI(result.data), ...prevTasks]);
+        return setTasks((prevTasks) => [convertTaskFromAPI(result.data.task), ...prevTasks]);
       });
   };
 
