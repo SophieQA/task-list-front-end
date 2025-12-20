@@ -118,7 +118,7 @@ const App = () => {
   const onHandleSubmit = (data) => {
     return addTaskAPI(data)
       .then((result) => {
-        return setTasks((prevTasks) => [convertTaskFromAPI(result.data), ...prevTasks]);
+        return setTasks((prevTasks) => [convertTaskFromAPI(result.data.task), ...prevTasks]);
       });
   };
 
